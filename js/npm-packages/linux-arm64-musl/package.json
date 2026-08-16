@@ -1,7 +1,7 @@
 {
-  "name": "@michael4d45/effect-schema-linux-arm64-musl",
-  "version": "0.1.1",
-  "description": "Linux arm64 musl binary for @michael4d45/effect-schema",
+  "name": "@michael4d45/effect-schema-generator-linux-arm64-musl",
+  "version": "0.7.0",
+  "description": "Linux arm64 musl binary for @michael4d45/effect-schema-generator",
   "license": "MIT",
   "os": ["linux"],
   "cpu": ["arm64"],

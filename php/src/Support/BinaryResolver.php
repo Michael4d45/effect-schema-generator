@@ -23,6 +23,11 @@ class BinaryResolver
             }
         }
 
+        $fromBundled = self::npmBundledBinary($basePath);
+        if ($fromBundled !== null) {
+            return $fromBundled;
+        }
+
         $fromNpm = self::npmNativeBinary($basePath);
         if ($fromNpm !== null) {
             return $fromNpm;
@@ -62,20 +67,55 @@ class BinaryResolver
         if (PHP_OS_FAMILY === 'Linux') {
             $musl = is_file('/lib/ld-musl-x86_64.so.1') || is_file('/lib/ld-musl-aarch64.so.1');
             if ($musl) {
-                $names[] = "effect-schema-linux-{$arch}-musl";
+                $names[] = "effect-schema-generator-linux-{$arch}-musl";
             } else {
-                $names[] = "effect-schema-linux-{$arch}-gnu";
-                $names[] = "effect-schema-linux-{$arch}-musl";
+                $names[] = "effect-schema-generator-linux-{$arch}-gnu";
+                $names[] = "effect-schema-generator-linux-{$arch}-musl";
             }
         } elseif (PHP_OS_FAMILY === 'Darwin') {
-            $names[] = "effect-schema-darwin-{$arch}";
+            $names[] = "effect-schema-generator-darwin-{$arch}";
         } elseif (PHP_OS_FAMILY === 'Windows') {
-            $names[] = "effect-schema-win32-{$arch}";
+            $names[] = "effect-schema-generator-win32-{$arch}";
         }
 
         foreach ($names as $name) {
             $binName = PHP_OS_FAMILY === 'Windows' ? 'effect-schema.exe' : 'effect-schema';
             $path = $basePath . '/node_modules/@michael4d45/' . $name . '/' . $binName;
+            if (is_file($path) && (PHP_OS_FAMILY === 'Windows' || is_executable($path))) {
+                return $path;
+            }
+        }
+
+        return null;
+    }
+
+    private static function npmBundledBinary(string $basePath): ?string
+    {
+        $arch = match (php_uname('m')) {
+            'x86_64', 'amd64' => 'x64',
+            'aarch64', 'arm64' => 'arm64',
+            default => null,
+        };
+        if ($arch === null) {
+            return null;
+        }
+
+        $dirs = [];
+        if (PHP_OS_FAMILY === 'Linux') {
+            $musl = is_file('/lib/ld-musl-x86_64.so.1') || is_file('/lib/ld-musl-aarch64.so.1');
+            $dirs = $musl
+                ? ["linux-{$arch}-musl"]
+                : ["linux-{$arch}-gnu", "linux-{$arch}-musl"];
+        } elseif (PHP_OS_FAMILY === 'Darwin') {
+            $dirs = ["darwin-{$arch}"];
+        } elseif (PHP_OS_FAMILY === 'Windows') {
+            $dirs = ["win32-{$arch}"];
+        }
+
+        $binName = PHP_OS_FAMILY === 'Windows' ? 'effect-schema.exe' : 'effect-schema';
+        $root = $basePath . '/node_modules/@michael4d45/effect-schema-generator/binaries/';
+        foreach ($dirs as $dir) {
+            $path = $root . $dir . '/' . $binName;
             if (is_file($path) && (PHP_OS_FAMILY === 'Windows' || is_executable($path))) {
                 return $path;
             }

@@ -24,7 +24,7 @@ class GenerateSchemasCommand extends Command
 
         if (!is_file($binary)) {
             $this->error("effect-schema binary not found: {$binary}");
-            $this->line('Install the native binary with `npm install -D @michael4d45/effect-schema`,');
+            $this->line('Install the native binary with `npm install -D @michael4d45/effect-schema-generator`,');
             $this->line('or set EFFECT_SCHEMA_BIN to the binary path.');
 
             return self::FAILURE;

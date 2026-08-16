@@ -46,15 +46,15 @@ const bundledBinaryDirs = () => {
 export const platformPackageNames = () => {
     const { platform, arch } = process;
     if (platform === 'linux') {
-        const musl = `@michael4d45/effect-schema-linux-${arch}-musl`;
-        const gnu = `@michael4d45/effect-schema-linux-${arch}-gnu`;
+        const musl = `@michael4d45/effect-schema-generator-linux-${arch}-musl`;
+        const gnu = `@michael4d45/effect-schema-generator-linux-${arch}-gnu`;
         return isMusl() ? [musl] : [gnu, musl];
     }
     if (platform === 'darwin') {
-        return [`@michael4d45/effect-schema-darwin-${arch}`];
+        return [`@michael4d45/effect-schema-generator-darwin-${arch}`];
     }
     if (platform === 'win32') {
-        return [`@michael4d45/effect-schema-win32-${arch}`];
+        return [`@michael4d45/effect-schema-generator-win32-${arch}`];
     }
     return [];
 };
@@ -119,7 +119,7 @@ export const resolveBinary = (projectRoot) => {
     throw new Error(
         `Native effect-schema binary not found for ${process.platform}-${process.arch}` +
             `${process.platform === 'linux' ? ` (${isMusl() ? 'musl' : 'gnu'})` : ''}. ` +
-            `npm install should pull optional dependency ${expected}. ` +
+            `npm install should pull @michael4d45/effect-schema-generator (binary for ${expected}). ` +
             `Set EFFECT_SCHEMA_BIN to override.`,
     );
 };

@@ -1,4 +1,4 @@
-# effect-schema-generator (Rust)
+# effect-schema-generator
 
 Native generator for TypeScript / Effect schemas from Spatie Laravel Data classes. PHP source of truth: [Laravel-Effect-Generator](https://github.com/Michael4d45/Laravel-Effect-Generator).
 
@@ -6,8 +6,8 @@ Native generator for TypeScript / Effect schemas from Spatie Laravel Data classe
 
 | Distro | Path | Who consumes it |
 |---|---|---|
-| npm `@michael4d45/effect-schema` | `js/` | Vite, `npm run types:generate`, CI |
-| Composer `michael4d45/effect-schema-generator` | `php/` | `#[Optional]` attributes + Artisan wrapper |
+| npm `@michael4d45/effect-schema-generator` | `js/` | Vite, `npm run types:generate`, CI |
+| Composer `michael4d45/effect-schema-generator` | `php/` (root `composer.json` for Packagist) | `#[Optional]` attributes + Artisan wrapper |
 | Cargo `effect-schema-generator` | crate root | the `effect-schema` binary |
 
 Apps should **generate types from npm**, not from `php artisan`, so Alpine Docker/CI and Lerd Vite do not boot Laravel (~0.9s) and do not need a sibling `cargo build`.
@@ -29,11 +29,11 @@ rustup target add x86_64-unknown-linux-musl aarch64-unknown-linux-musl
 
 ## Publish
 
-GitHub Actions (`.github/workflows/release.yml`) builds platform binaries, copies them into `js/binaries/`, and `npm publish`s `@michael4d45/effect-schema` via npm Trusted Publishing (OIDC). No `NPM_TOKEN` secret.
+GitHub Actions (`.github/workflows/release.yml`) builds platform binaries, copies them into `js/binaries/`, and `npm publish`s `@michael4d45/effect-schema-generator` via npm Trusted Publishing (OIDC). Configure the trusted publisher on that npm package for repo `Michael4d45/effect-schema-generator` and workflow `release.yml`.
 
 ```bash
-git tag v0.1.1
-git push origin v0.1.1
+git tag v0.7.0
+git push origin v0.7.0
 ```
 
-Composer wrapper is published separately to Packagist from `php/` (attributes + Artisan; looks up the npm native binary under `node_modules/@michael4d45/effect-schema-*`).
+Composer is Packagist `michael4d45/effect-schema-generator` (root `composer.json`, sources in `php/`). After tagging, point the existing Packagist listing at `https://github.com/Michael4d45/effect-schema-generator`.
