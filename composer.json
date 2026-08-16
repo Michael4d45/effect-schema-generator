@@ -41,12 +41,17 @@
         "exclude": [
             "/src",
             "/tests",
+            "/fixtures",
             "/js",
             "/scripts",
             "/target",
             "/.github",
             "/Cargo.toml",
-            "/Cargo.lock"
+            "/Cargo.lock",
+            "/MAGO.md",
+            "/PIPELINE.md",
+            "/effect-schema.example.toml",
+            "/php/composer.json"
         ]
     }
 }

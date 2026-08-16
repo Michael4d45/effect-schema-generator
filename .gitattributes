@@ -1,0 +1,16 @@
+# Packagist uses the GitHub zipball, which honors export-ignore.
+# Keep Composer dist to PHP attributes + Artisan wrapper only.
+/.github export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/src export-ignore
+/tests export-ignore
+/fixtures export-ignore
+/js export-ignore
+/scripts export-ignore
+/Cargo.toml export-ignore
+/Cargo.lock export-ignore
+/MAGO.md export-ignore
+/PIPELINE.md export-ignore
+/effect-schema.example.toml export-ignore
+/php/composer.json export-ignore
