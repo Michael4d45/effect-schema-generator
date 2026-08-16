@@ -7,7 +7,7 @@
   "author": "Michael",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Michael4d45/Laravel-Effect-Generator-RS.git"
+    "url": "git+https://github.com/Michael4d45/effect-schema.git"
   },
   "bin": {
     "effect-schema": "bin/effect-schema.js"
