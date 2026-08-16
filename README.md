@@ -29,11 +29,11 @@ rustup target add x86_64-unknown-linux-musl aarch64-unknown-linux-musl
 
 ## Publish
 
-GitHub Actions (`.github/workflows/release.yml`) builds platform binaries, copies them into `js/binaries/`, and `npm publish`s `@michael4d45/effect-schema`. Requires repo secret `NPM_TOKEN`.
+GitHub Actions (`.github/workflows/release.yml`) builds platform binaries, copies them into `js/binaries/`, and `npm publish`s `@michael4d45/effect-schema` via npm Trusted Publishing (OIDC). No `NPM_TOKEN` secret.
 
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.1.1
+git push origin v0.1.1
 ```
 
 Composer wrapper is published separately to Packagist from `php/` (attributes + Artisan; looks up the npm native binary under `node_modules/@michael4d45/effect-schema-*`).

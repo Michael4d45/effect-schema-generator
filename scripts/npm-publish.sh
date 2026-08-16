@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Publish the wrapper package (native binaries are bundled under js/binaries/).
-# Requires npm login (or NPM_TOKEN) and access to the @michael4d45 scope.
+# Local: npm login. CI: Trusted Publisher OIDC (do not set NODE_AUTH_TOKEN).
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT/js"

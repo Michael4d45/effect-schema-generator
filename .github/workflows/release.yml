@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build-linux-x64:
@@ -81,13 +81,16 @@ jobs:
   publish:
     needs: [build-linux-x64, build-linux-arm64, build-darwin]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
-          scope: '@michael4d45'
+          package-manager-cache: false
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
@@ -110,6 +113,4 @@ jobs:
           strip js/npm-packages/linux-*/effect-schema js/binaries/linux-*/effect-schema || true
 
       - name: Publish npm packages
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: ./scripts/npm-publish.sh
