@@ -1,0 +1,41 @@
+# Paths are relative to the project that owns this file.
+data_paths = [
+    "app/Data",
+    "app/Features",
+    "app/Apis/Kroger/DTO",
+    "app/Apis/Walmart/DTO",
+]
+enum_paths = ["app/Enums"]
+output_directory = "resources/packages/api-types/src"
+clear_output_directory_before_write = true
+phpdoc_overrides_types = true
+
+# Built-in IR transformers. App-specific FQCN mappings go in [[type_maps]].
+plugins = [
+    "length_aware_paginator",
+    "lazy_optional",
+    "hidden",
+    "snake_case",
+    "date",
+    "collection",
+    "type_enum",
+    "effect_schema_enum",
+    "const_object_enum",
+]
+
+# Replaces App\EffectSchema\Plugins\UploadedFilePlugin — no PHP, no artisan boot.
+[[type_maps]]
+match = "Illuminate\\Http\\UploadedFile"
+interface = "UploadedFile"
+encoded = "UploadedFile"
+schema = "S.suspend(() => UploadedFileSchema)"
+file_path = "Illuminate/UploadedFile.ts"
+file_content = """
+import { Schema as S } from 'effect';
+
+/** Browser File type for multipart uploads; matches Laravel Illuminate\\Http\\UploadedFile on the client. */
+export type UploadedFile = File;
+
+export const UploadedFileSchema: S.Schema<UploadedFile> =
+    S.Any as S.Schema<UploadedFile>;
+"""

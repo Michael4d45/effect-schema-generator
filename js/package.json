@@ -1,0 +1,55 @@
+{
+  "name": "@michael4d45/effect-schema",
+  "version": "0.1.0",
+  "description": "Generate TypeScript interfaces and Effect schemas from Spatie Laravel Data classes",
+  "type": "module",
+  "license": "MIT",
+  "author": "Michael",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Michael4d45/Laravel-Effect-Generator-RS.git"
+  },
+  "bin": {
+    "effect-schema": "bin/effect-schema.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "default": "./index.js"
+    },
+    "./vite": {
+      "types": "./vite.d.ts",
+      "import": "./vite.js",
+      "default": "./vite.js"
+    }
+  },
+  "files": [
+    "bin/",
+    "binaries/",
+    "index.js",
+    "index.d.ts",
+    "resolve-binary.js",
+    "vite.js",
+    "vite.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "minimatch": "^10.0.0"
+  },
+  "peerDependencies": {
+    "vite": "^6.0.0 || ^7.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

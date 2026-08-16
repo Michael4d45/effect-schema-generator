@@ -1,0 +1,11 @@
+{
+  "name": "@michael4d45/effect-schema-linux-arm64-musl",
+  "version": "0.1.0",
+  "description": "Linux arm64 musl binary for @michael4d45/effect-schema",
+  "license": "MIT",
+  "os": ["linux"],
+  "cpu": ["arm64"],
+  "libc": ["musl"],
+  "files": ["effect-schema"],
+  "publishConfig": { "access": "public" }
+}

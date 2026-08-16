@@ -1,0 +1,10 @@
+{
+  "name": "@michael4d45/effect-schema-darwin-arm64",
+  "version": "0.1.0",
+  "description": "macOS arm64 binary for @michael4d45/effect-schema",
+  "license": "MIT",
+  "os": ["darwin"],
+  "cpu": ["arm64"],
+  "files": ["effect-schema"],
+  "publishConfig": { "access": "public" }
+}

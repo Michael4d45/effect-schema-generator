@@ -1,0 +1,115 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux-x64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-unknown-linux-musl,x86_64-unknown-linux-gnu
+      - name: Install musl toolchain
+        run: sudo apt-get update && sudo apt-get install -y musl-tools
+      - name: Build gnu
+        run: cargo build --release --target x86_64-unknown-linux-gnu
+      - name: Build musl
+        run: cargo build --release --target x86_64-unknown-linux-musl
+        env:
+          CC_x86_64_unknown_linux_musl: musl-gcc
+      - name: Stage
+        run: |
+          mkdir -p dist/linux-x64-gnu dist/linux-x64-musl
+          cp target/x86_64-unknown-linux-gnu/release/effect-schema dist/linux-x64-gnu/
+          cp target/x86_64-unknown-linux-musl/release/effect-schema dist/linux-x64-musl/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-x64
+          path: dist/
+
+  build-linux-arm64:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-unknown-linux-musl,aarch64-unknown-linux-gnu
+      - name: Install musl toolchain
+        run: sudo apt-get update && sudo apt-get install -y musl-tools
+      - name: Build gnu
+        run: cargo build --release --target aarch64-unknown-linux-gnu
+      - name: Build musl
+        run: cargo build --release --target aarch64-unknown-linux-musl
+        env:
+          CC_aarch64_unknown_linux_musl: musl-gcc
+      - name: Stage
+        run: |
+          mkdir -p dist/linux-arm64-gnu dist/linux-arm64-musl
+          cp target/aarch64-unknown-linux-gnu/release/effect-schema dist/linux-arm64-gnu/
+          cp target/aarch64-unknown-linux-musl/release/effect-schema dist/linux-arm64-musl/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-arm64
+          path: dist/
+
+  build-darwin:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - run: cargo build --release --target aarch64-apple-darwin
+      - run: cargo build --release --target x86_64-apple-darwin
+      - name: Stage
+        run: |
+          mkdir -p dist/darwin-arm64 dist/darwin-x64
+          cp target/aarch64-apple-darwin/release/effect-schema dist/darwin-arm64/
+          cp target/x86_64-apple-darwin/release/effect-schema dist/darwin-x64/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: darwin
+          path: dist/
+
+  publish:
+    needs: [build-linux-x64, build-linux-arm64, build-darwin]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          scope: '@michael4d45'
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Stage binaries into npm packages
+        run: |
+          set -euo pipefail
+          copy_bin() {
+            local src="$1" dest_dir="$2"
+            mkdir -p "js/npm-packages/${dest_dir}" "js/binaries/${dest_dir}"
+            cp "$src" "js/npm-packages/${dest_dir}/effect-schema"
+            cp "$src" "js/binaries/${dest_dir}/effect-schema"
+            chmod +x "js/npm-packages/${dest_dir}/effect-schema" "js/binaries/${dest_dir}/effect-schema"
+          }
+          copy_bin artifacts/linux-x64/linux-x64-gnu/effect-schema linux-x64-gnu
+          copy_bin artifacts/linux-x64/linux-x64-musl/effect-schema linux-x64-musl
+          copy_bin artifacts/linux-arm64/linux-arm64-gnu/effect-schema linux-arm64-gnu
+          copy_bin artifacts/linux-arm64/linux-arm64-musl/effect-schema linux-arm64-musl
+          copy_bin artifacts/darwin/darwin-arm64/effect-schema darwin-arm64
+          copy_bin artifacts/darwin/darwin-x64/effect-schema darwin-x64
+          strip js/npm-packages/linux-*/effect-schema js/binaries/linux-*/effect-schema || true
+
+      - name: Publish npm packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: ./scripts/npm-publish.sh

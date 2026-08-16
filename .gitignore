@@ -1,0 +1,9 @@
+/target
+**/*.rs.bk
+php/bin/effect-schema
+js/npm-packages/*/effect-schema
+js/npm-packages/*/effect-schema.exe
+js/binaries
+js/node_modules
+.idea
+.vscode

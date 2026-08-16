@@ -1,0 +1,29 @@
+[package]
+name = "effect-schema-generator"
+version = "0.1.0"
+edition = "2021"
+description = "Generate TypeScript interfaces and Effect schemas from PHP Spatie Data classes"
+license = "MIT"
+
+[[bin]]
+name = "effect-schema"
+path = "src/main.rs"
+
+[dependencies]
+mago-allocator = "1.46"
+mago-database = "1.46"
+mago-docblock = "1.42"
+mago-names = "1.46"
+mago-php-version = "1.46"
+mago-span = "1.46"
+mago-syntax = "1.46"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+walkdir = "2"
+thiserror = "2"
+clap = { version = "4", features = ["derive"] }
+
+[dev-dependencies]
+pretty_assertions = "1"
+tempfile = "3"
