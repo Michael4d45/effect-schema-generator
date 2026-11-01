@@ -1,6 +1,6 @@
 {
   "name": "@michael4d45/effect-schema-generator-darwin-arm64",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "macOS arm64 binary for @michael4d45/effect-schema-generator",
   "license": "MIT",
   "os": ["darwin"],

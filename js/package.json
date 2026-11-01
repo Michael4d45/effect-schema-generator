@@ -1,6 +1,6 @@
 {
   "name": "@michael4d45/effect-schema-generator",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Generate TypeScript interfaces and Effect schemas from Spatie Laravel Data classes",
   "type": "module",
   "license": "MIT",
@@ -43,7 +43,7 @@
     "minimatch": "^10.0.0"
   },
   "peerDependencies": {
-    "vite": "^6.0.0 || ^7.0.0"
+    "vite": "^6.0.0 || ^7.0.0 || ^8.0.0"
   },
   "peerDependenciesMeta": {
     "vite": {

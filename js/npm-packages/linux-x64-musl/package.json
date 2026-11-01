@@ -1,6 +1,6 @@
 {
   "name": "@michael4d45/effect-schema-generator-linux-x64-musl",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Linux x64 musl binary for @michael4d45/effect-schema-generator",
   "license": "MIT",
   "os": ["linux"],

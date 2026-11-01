@@ -1,6 +1,6 @@
 {
   "name": "@michael4d45/effect-schema-generator-linux-arm64-gnu",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Linux arm64 glibc binary for @michael4d45/effect-schema-generator",
   "license": "MIT",
   "os": ["linux"],

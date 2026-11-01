@@ -1,6 +1,6 @@
 [package]
 name = "effect-schema-generator"
-version = "0.7.0"
+version = "0.7.1"
 edition = "2021"
 description = "Generate TypeScript interfaces and Effect schemas from PHP Spatie Data classes"
 license = "MIT"

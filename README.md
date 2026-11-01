@@ -32,8 +32,8 @@ rustup target add x86_64-unknown-linux-musl aarch64-unknown-linux-musl
 GitHub Actions (`.github/workflows/release.yml`) builds platform binaries, copies them into `js/binaries/`, and `npm publish`s `@michael4d45/effect-schema-generator` via npm Trusted Publishing (OIDC). Configure the trusted publisher on that npm package for repo `Michael4d45/effect-schema-generator` and workflow `release.yml`.
 
 ```bash
-git tag v0.7.0
-git push origin v0.7.0
+git tag v0.7.1
+git push origin v0.7.1
 ```
 
 Composer is Packagist `michael4d45/effect-schema-generator` (root `composer.json`, sources in `php/`). After tagging, point the existing Packagist listing at `https://github.com/Michael4d45/effect-schema-generator`.
